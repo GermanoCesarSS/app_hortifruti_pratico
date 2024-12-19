@@ -6,7 +6,7 @@ class HomeController extends GetxController {
 
   void incrementCounter() {
     counter.value++;
-    debugPrint('incrementCounter: Clicou no botao');
-    debugPrint('Valor do botão: ${counter.value}');
+    debugPrint('incrementCounter');
+    debugPrint('Valor do HomeController.counter.value: ${counter.value}');
   }
 }

@@ -7,6 +7,6 @@ void main() {
       (WidgetTester tester) async {
     startApp();
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('HomePageScaffold')), findsOneWidget);
+    expect(find.byKey(const Key('DashboardPageScaffold')), findsOneWidget);
   });
 }
