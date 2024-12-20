@@ -15,7 +15,7 @@ class HomePage extends GetView<HomeController> {
           child: ListView(
             children: [
               for (var store in state!)
-                _buildListItem(store.name, store.isOnline),
+                _buildListItem(store.nome, store.online),
             ],
           ),
         ),

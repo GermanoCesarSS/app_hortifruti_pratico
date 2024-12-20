@@ -1,20 +1,20 @@
 class StoreModel {
   int id;
-  String name;
-  String image;
-  bool isOnline;
+  String nome;
+  String logo;
+  bool online;
 
   StoreModel({
     required this.id,
-    required this.name,
-    required this.image,
-    required this.isOnline,
+    required this.nome,
+    required this.logo,
+    required this.online,
   });
 
   factory StoreModel.fromJson(Map<String, dynamic> json) => StoreModel(
         id: json['id'],
-        name: json['name'],
-        image: json['image'],
-        isOnline: (json['isOnline'] == 1),
+        nome: json['nome'],
+        logo: json['logo'] ?? '', 
+        online: (json['online'] == 1),
       );
 }

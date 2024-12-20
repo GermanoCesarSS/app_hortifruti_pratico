@@ -8,12 +8,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  startApp();
-}
-
-void startApp() {
-  Intl.defaultLocale = 'pt_BR';
   Get.put<Api>(Api());
+  Intl.defaultLocale = 'pt_BR';
+
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     initialRoute: Routes.dashboard,

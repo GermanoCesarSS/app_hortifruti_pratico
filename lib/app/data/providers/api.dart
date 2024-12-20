@@ -6,11 +6,12 @@ import 'package:get/get_connect/http/src/request/request.dart';
 class Api extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = 'localhost:3333';
+    httpClient.baseUrl = 'http://10.0.2.2:3333/';
     httpClient.addRequestModifier(
       (Request request) {
         request.headers['Accept'] = 'application/json';
         request.headers['Content-Type'] = 'application/json';
+
         return request;
       },
     );
@@ -25,6 +26,7 @@ class Api extends GetConnect {
     List<StoreModel> data = [];
 
     for (var store in response.body) {
+      debugPrint('Conteudo do store: $store');
       data.add(StoreModel.fromJson(store));
     }
 
