@@ -1,12 +1,16 @@
 import 'package:app_hortifruti_pratico/app/modules/home/controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'home_controller_test.mocks.mocks.dart';
+
 void main() {
+  late MockHomeRepository mockHomeRepository;
   late HomeController homeControllerTest;
 
   setUp(
     () {
-      homeControllerTest = HomeController();
+      mockHomeRepository = MockHomeRepository();
+      homeControllerTest = HomeController(mockHomeRepository);
     },
   );
   group(

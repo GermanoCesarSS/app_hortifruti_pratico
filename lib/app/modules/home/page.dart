@@ -8,26 +8,26 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: const Key('HomePageScaffold'),
-        appBar: AppBar(title: const Text('HomePage')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('Voce clicou:'),
-              Obx(
-                () => Text(
-                  controller.counter.toString(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-              FloatingActionButton(
-                onPressed: controller.incrementCounter,
-                tooltip: 'Adicionado mais 1 :)',
-                child: const Icon(Icons.add),
-                ),
+      key: const Key('HomePageScaffold'),
+      appBar: AppBar(title: const Text('Hortifruti Prático')),
+      body: controller.obx(
+        (state) => SafeArea(
+          child: ListView(
+            children: [
+              for (var store in state!)
+                _buildListItem(store.name, store.isOnline),
             ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListItem(String titulo, bool aberto) {
+    return ListTile(
+      title: Text(titulo),
+      leading: const FlutterLogo(),
+      trailing: Text(aberto ? 'Aberto' : 'Fechado'),
+    );
   }
 }
