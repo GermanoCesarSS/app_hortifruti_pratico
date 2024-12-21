@@ -2,12 +2,12 @@
 import 'package:app_hortifruti_pratico/app/data/models/store.dart';
 import 'package:app_hortifruti_pratico/app/data/providers/api.dart';
 
-class HomeRepository {
+class StoreRepository {
   final ApiService _api;
 
-  HomeRepository(this._api);
+  StoreRepository(this._api);
 
-  ApiService get api => _api;
-
-  Future<List<StoreModel>> getStores() => _api.getStores();
+  Future<StoreModel> getStore(int id) {
+    return _api.getStore(id);
+  }
 }

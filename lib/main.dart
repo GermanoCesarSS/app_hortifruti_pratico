@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/core/theme/app_theme.dart';
 import 'package:app_hortifruti_pratico/app/data/providers/api.dart';
 import 'package:app_hortifruti_pratico/app/routes/pages.dart';
@@ -7,11 +8,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  Get.put<Api>(Api());
+void main() async {
+  await initDependencies();
   Intl.defaultLocale = 'pt_BR';
+  runApp(buildApp());
+}
 
-  runApp(GetMaterialApp(
+Future<void> initDependencies() async {
+  Get.put<ApiService>(ApiService());
+}
+
+Widget buildApp() {
+  return GetMaterialApp(
     debugShowCheckedModeBanner: false,
     initialRoute: Routes.dashboard,
     theme: themeData,
@@ -25,5 +33,5 @@ void main() {
     supportedLocales: const [
       Locale('pt', 'BR'),
     ],
-  ));
+  );
 }

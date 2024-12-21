@@ -1,6 +1,9 @@
+// coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/modules/home/controller.dart';
+import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -15,19 +18,64 @@ class HomePage extends GetView<HomeController> {
           child: ListView(
             children: [
               for (var store in state!)
-                _buildListItem(store.nome, store.online),
+                _buildListItem(
+                    id: store.id,
+                    titulo: store.name,
+                    imagem: store.imagem,
+                    isOnline: store.isOnline),
             ],
+          ),
+        ),
+        onEmpty: const Center(
+          child: Text(
+            'Não tem nenhum estabelecimento disponível para a sua cidade',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        onError: (error) => Center(
+          child: Text(
+            error!,
+            textAlign: TextAlign.center,
+            style: Get.textTheme.bodyMedium!.copyWith(
+              color: Colors.red,
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildListItem(String titulo, bool aberto) {
+  Widget _buildListItem(
+      {required int id,
+      required String titulo,
+      required String imagem,
+      required bool isOnline}) {
     return ListTile(
       title: Text(titulo),
-      leading: const FlutterLogo(),
-      trailing: Text(aberto ? 'Aberto' : 'Fechado'),
+      leading: SizedBox(
+        width: 56.0,
+        child: ClipRRect(
+          child: FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: imagem,
+          ),
+        ),
+      ),
+      trailing: Container(
+        padding: const EdgeInsets.all(4.0),
+        decoration: BoxDecoration(
+          color: isOnline ? Colors.green : Colors.black45,
+          border: Border.all(color: Colors.black12, width: 2.0),
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Text(
+          isOnline ? 'Aberto' : 'Fechado',
+          style: Get.textTheme.bodyMedium!.copyWith(color: Colors.white),
+        ),
+      ),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 8.00, horizontal: 16.00),
+      onTap: () => Get.toNamed(Routes.store.replaceFirst(':id', id.toString())),
     );
   }
 }

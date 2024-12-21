@@ -1,49 +1,82 @@
 import 'package:app_hortifruti_pratico/app/data/models/store.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/connect.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
 
-class Api extends GetConnect {
-  @override
-  void onInit() {
-    httpClient.baseUrl = 'http://10.0.2.2:3333/';
-    httpClient.addRequestModifier(
-      (Request request) {
-        request.headers['Accept'] = 'application/json';
-        request.headers['Content-Type'] = 'application/json';
+class ApiService {
+  final Dio dio;
 
-        return request;
-      },
-    );
-
-    super.onInit();
-  }
+  ApiService({Dio? dio})
+      : dio = dio ??
+            Dio(
+              BaseOptions(
+                baseUrl: 'http://10.0.2.2:3333/',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                connectTimeout: const Duration(seconds: 10),
+                receiveTimeout: const Duration(seconds: 10),
+              ),
+            );
 
   Future<List<StoreModel>> getStores() async {
-    debugPrint('FUNCAO getStores');
-    var response = _errorHandler(await get('cidades/1/estabelecimentos'));
+    try {
+      debugPrint('FUNCAO getStores');
+      final response = await dio.get<List>('cidades/1/estabelecimentos');
 
-    List<StoreModel> data = [];
-
-    for (var store in response.body) {
-      debugPrint('Conteudo do store: $store');
-      data.add(StoreModel.fromJson(store));
+      debugPrint('getStore id status: ${response.statusCode}');
+      debugPrint('Retorno API: ${response.data}');
+      return response.data!.map((e) => StoreModel.fromJson(e)).toList();
+    } on DioException catch (dioCatch) {
+      switch (dioCatch.response?.statusCode) {
+        case 400:
+          debugPrint('Erro 1: Descrição do erro');
+          throw ('Estabelecimento não encontrado.');
+        case 404:
+          debugPrint('Erro 404: Recurso não encontrado');
+          throw ('Estabelecimento não encontrado.');
+        case null:
+          debugPrint('Erro Dio: Sem conecao');
+          throw ('Sem conexao.');
+        default:
+          debugPrint(
+              'Erro funcao getStores Dio: ${dioCatch.response?.statusCode}');
+          throw 'Ocorreu um erro no getStores: ${dioCatch.message}';
+      }
+    } catch (e) {
+      debugPrint('Erro na funcao getStores: $e');
+      throw 'Ocorreu um erro desconhecido getStores';
     }
-
-    return data;
   }
 
-  Response _errorHandler(Response response) {
-    debugPrint('Retorno API');
-    debugPrint(response.bodyString);
-    debugPrint('Retorno API');
-    switch (response.statusCode) {
-      case 200:
-      case 202:
-      case 204:
-        return response;
-      default:
-        throw 'Ocorreu um erro';
+  Future<StoreModel> getStore(int id) async {
+    try {
+      debugPrint('FUNCAO getStore id');
+      final response = await dio.get('estabelecimentos/$id');
+      debugPrint('Retorno da getStore id');
+
+      debugPrint('Retorno API: ${response.data}');
+
+      return StoreModel.fromJson(response.data);
+    } on DioException catch (dioCatch) {
+      switch (dioCatch.response?.statusCode) {
+        case 400:
+          debugPrint('Erro 1: Descrição do erro');
+          throw ('Estabelecimento não encontrado.');
+        case 404:
+          debugPrint('Erro 404: Recurso não encontrado');
+          throw ('Estabelecimento não encontrado.');
+        case null:
+          debugPrint('Erro Dio: Sem conecao');
+          throw ('Sem conexao.');
+        default:
+          debugPrint(
+              'Erro funcao getStores Dio: ${dioCatch.response?.statusCode}');
+          throw 'Ocorreu um erro no getStores: ${dioCatch.message}';
+      }
+    } catch (e) {
+      debugPrint('Erro na funcao getStore id: $e');
+      throw 'Ocorreu um erro getStore id';
     }
   }
 }

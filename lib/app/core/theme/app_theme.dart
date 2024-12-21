@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/material.dart';
 
 var _colorScheme = ColorScheme.fromSeed(seedColor: Colors.greenAccent);
