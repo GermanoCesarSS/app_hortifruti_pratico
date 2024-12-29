@@ -1,8 +1,10 @@
 // coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/modules/store/controller.dart';
+import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:app_hortifruti_pratico/app/widgtes/store_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class StorePage extends GetView<StoreController> {
@@ -11,42 +13,102 @@ class StorePage extends GetView<StoreController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.shopping_cart),
+        onPressed: () => Get.toNamed(Routes.cart),
+      ),
       body: controller.obx(
-        (state) => ListView(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 96.0,
-                    child: ClipRRect(
-                      child: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: state!.imagem,
+        (state) => CustomScrollView(
+          slivers: [
+            const SliverAppBar(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 16.00,
+                  top: 8.00,
+                  right: 16.00,
+                  bottom: 16.00,
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 96.0,
+                      height: 96.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: state!.imagem,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            state.name,
+                            style: Get.textTheme.headlineSmall,
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          StoreStatus(isOnline: state.isOnline),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(((context, index) {
+                var category = state.categories[index];
+                return Column(
+                  children: [
+                    Row(
                       children: [
-                        Text(
-                          state.name,
-                          style: Get.textTheme.headlineSmall,
+                        Expanded(
+                          child: Container(
+                            color: Colors.grey[200],
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.00, horizontal: 16.00),
+                            child: Text(
+                              category.name,
+                              style: Get.textTheme.titleMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
-                        StoreStatus(isOnline: state.isOnline),
                       ],
                     ),
-                  ),
-                ],
-              ),
+                    for (var product in category.products)
+                      ListTile(
+                        title: Text(product.name),
+                        subtitle: Text(
+                          NumberFormat.simpleCurrency().format(product.price) +
+                              (product.isKg ? '/KG' : ''),
+                        ),
+                        leading: product.imagem.isNotEmpty
+                            ? ClipRRect(
+                                child: FadeInImage.memoryNetwork(
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) =>
+                                          Container(width: 56.00),
+                                  placeholder: kTransparentImage,
+                                  image: product.imagem,
+                                ),
+                              )
+                            : null,
+                        onTap: () => Get.toNamed(Routes.product, arguments: {
+                          'product': product,
+                          'store': state,
+                        }),
+                      ),
+                  ],
+                );
+              }), childCount: state.categories.length),
             )
           ],
         ),

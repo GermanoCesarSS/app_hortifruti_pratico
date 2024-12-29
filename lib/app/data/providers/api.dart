@@ -10,6 +10,7 @@ class ApiService {
             Dio(
               BaseOptions(
                 baseUrl: 'http://10.0.2.2:3333/',
+                // baseUrl: 'http://localhost:3333/',
                 headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',

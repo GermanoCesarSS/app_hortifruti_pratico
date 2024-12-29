@@ -1,6 +1,7 @@
 // coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/core/theme/app_theme.dart';
 import 'package:app_hortifruti_pratico/app/data/providers/api.dart';
+import 'package:app_hortifruti_pratico/app/data/services/cart/services.dart';
 import 'package:app_hortifruti_pratico/app/routes/pages.dart';
 import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ void main() async {
 
 Future<void> initDependencies() async {
   Get.put<ApiService>(ApiService());
+  Get.put<CartService>(CartService());
 }
 
 Widget buildApp() {

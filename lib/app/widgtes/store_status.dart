@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class StoreStatus extends StatelessWidget {
   bool isOnline;
   StoreStatus({required this.isOnline, super.key});
