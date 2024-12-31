@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'widget/informacao_linha.dart';
+
 class CheckoutPage extends GetView<CheckoutController> {
   @override
   Widget build(BuildContext context) {
@@ -55,17 +57,17 @@ class CheckoutPage extends GetView<CheckoutController> {
                 ],
               ),
             ),
-            _InformacaoLinha(
+            InformacaoLinha(
               titulo: 'Produtos',
               numero:
                   NumberFormat.simpleCurrency().format(controller.totalCart),
             ),
-            _InformacaoLinha(
+            InformacaoLinha(
               titulo: 'Custo de Entrega',
               numero:
                   NumberFormat.simpleCurrency().format(controller.deliveryCost),
             ),
-            _InformacaoLinha(
+            InformacaoLinha(
               titulo: 'Total',
               numero:
                   NumberFormat.simpleCurrency().format(controller.totalCart),
@@ -76,41 +78,6 @@ class CheckoutPage extends GetView<CheckoutController> {
                     onPressed: () {}, child: const Text('Enviar pedido'))),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _InformacaoLinha extends StatelessWidget {
-  final String titulo;
-  final String numero;
-  final TextStyle? estiloTitulo;
-  final TextStyle? estiloNumero;
-
-  const _InformacaoLinha({
-    required this.titulo,
-    required this.numero,
-    this.estiloTitulo,
-    this.estiloNumero,
-  });
-
-  @override
-  Widget build(BuildContext _) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              '$titulo: ',
-              style: estiloTitulo ?? Get.textTheme.titleMedium,
-            ),
-          ),
-          Text(
-            numero,
-            style: estiloNumero ?? Get.textTheme.titleMedium,
-          ),
-        ],
       ),
     );
   }

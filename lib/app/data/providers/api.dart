@@ -1,11 +1,12 @@
 import 'package:app_hortifruti_pratico/app/data/models/store.dart';
+import 'package:app_hortifruti_pratico/app/data/models/user_login_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class ApiService {
+class Api {
   final Dio dio;
 
-  ApiService({Dio? dio})
+  Api({Dio? dio})
       : dio = dio ??
             Dio(
               BaseOptions(
@@ -78,6 +79,31 @@ class ApiService {
     } catch (e) {
       debugPrint('Erro na funcao getStore id: $e');
       throw 'Ocorreu um erro getStore id';
+    }
+  }
+
+  login(UserLoginRequestModel dados) async {
+    try {
+      var json =
+          await dio.post('login', data: FormData.fromMap(dados.toJson()));
+      debugPrint('getStore id status: ${json.statusCode}');
+      debugPrint('Retorno API: ${json.data}');
+      return json;
+    } on DioException catch (dioCatch) {
+      switch (dioCatch.response?.statusCode) {
+        case 404:
+          debugPrint('Erro 404: Recurso não encontrado');
+          throw ('Login não encontrado.');
+        case null:
+          debugPrint('Erro Dio: Sem conecao');
+          throw ('Sem conexao.');
+        default:
+          debugPrint('Erro funcao login Dio: ${dioCatch.response?.statusCode}');
+          throw 'Ocorreu um erro no login: ${dioCatch.message}';
+      }
+    } catch (e) {
+      debugPrint('Erro na funcao login: $e');
+      throw 'Ocorreu um erro login';
     }
   }
 }

@@ -1,6 +1,8 @@
 // coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/core/theme/app_theme.dart';
 import 'package:app_hortifruti_pratico/app/data/providers/api.dart';
+import 'package:app_hortifruti_pratico/app/data/services/auth/repository.dart';
+import 'package:app_hortifruti_pratico/app/data/services/auth/service.dart';
 import 'package:app_hortifruti_pratico/app/data/services/cart/services.dart';
 import 'package:app_hortifruti_pratico/app/routes/pages.dart';
 import 'package:app_hortifruti_pratico/app/routes/routes.dart';
@@ -16,7 +18,8 @@ void main() async {
 }
 
 Future<void> initDependencies() async {
-  Get.put<ApiService>(ApiService());
+  Get.put<Api>(Api());
+  Get.put<AuthService>(AuthService(AuthRepository()));
   Get.put<CartService>(CartService());
 }
 

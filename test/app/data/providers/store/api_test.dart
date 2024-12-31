@@ -9,14 +9,14 @@ import '../../../../config_test.dart';
 import '../api_test.mocks.dart';
 
 void main() {
-  late ApiService apiService;
+  late Api api;
   late MockDio mockDio;
   configureTest();
 
   setUp(() {
     debugPrint("Configuração inicial do teste API.");
     mockDio = MockDio();
-    apiService = ApiService(dio: mockDio);
+    api = Api(dio: mockDio);
   });
 
   test('Deve retornar uma lista de StoreModel ao receber status 200', () async {
@@ -32,7 +32,7 @@ void main() {
     when(mockDio.get<List>('cidades/1/estabelecimentos'))
         .thenAnswer((_) async => mockResponse);
 
-    final stores = await apiService.getStores();
+    final stores = await api.getStores();
 
     expect(stores, isA<List<StoreModel>>());
     expect(stores.length, 2);

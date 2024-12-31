@@ -7,7 +7,7 @@ class StoreBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<StoreController>(
-      () => StoreController(StoreRepository(Get.find<ApiService>())),
+      () => StoreController(StoreRepository(Get.find<Api>())),
     );
   }
 }
