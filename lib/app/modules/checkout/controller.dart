@@ -1,5 +1,6 @@
 import 'package:app_hortifruti_pratico/app/data/models/payment_method.dart';
 import 'package:app_hortifruti_pratico/app/data/models/shipping_by_city.dart';
+import 'package:app_hortifruti_pratico/app/data/services/auth/service.dart';
 import 'package:app_hortifruti_pratico/app/data/services/cart/services.dart';
 import 'package:app_hortifruti_pratico/app/modules/checkout/repository.dart';
 import 'package:app_hortifruti_pratico/app/routes/routes.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 class CheckoutController extends GetxController {
   final CheckoutRepository _repository;
   final _cartService = Get.find<CartService>();
+  final _authService = Get.find<AuthService>();
 
   CheckoutController(this._repository);
 
@@ -18,6 +20,8 @@ class CheckoutController extends GetxController {
     }
     return 0;
   }
+
+  bool get isLogged => _authService.isLogged;
 
   ShippingByCityModel? get getShippingByCity {
     var cityId = 1;

@@ -1,109 +1,93 @@
+import 'dart:convert';
+
 import 'package:app_hortifruti_pratico/app/data/models/store.dart';
+import 'package:app_hortifruti_pratico/app/data/models/user.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_login_request.dart';
-import 'package:dio/dio.dart';
+import 'package:app_hortifruti_pratico/app/data/models/user_login_response.dart';
+import 'package:app_hortifruti_pratico/app/data/services/storage/service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/request/request.dart';
 
-class Api {
-  final Dio dio;
+class Api extends GetConnect {
+  final _storageService = Get.find<StorageService>();
 
-  Api({Dio? dio})
-      : dio = dio ??
-            Dio(
-              BaseOptions(
-                baseUrl: 'http://10.0.2.2:3333/',
-                // baseUrl: 'http://localhost:3333/',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                connectTimeout: const Duration(seconds: 10),
-                receiveTimeout: const Duration(seconds: 10),
-              ),
-            );
+  @override
+  void onInit() {
+    debugPrint('--@override void onInit()');
+    httpClient.baseUrl = 'http://10.0.2.2:3333/';
+    // httpClient.baseUrl = 'http://localhost:3333/';
+
+    httpClient.addRequestModifier((Request request) {
+      request.headers['Accept'] = 'application/json';
+      request.headers['Content-Type'] = 'application/json';
+
+      return request;
+    });
+
+    httpClient.addAuthenticator((Request request) {
+      debugPrint('--@override httpClient.addAuthenticator((Request request)');
+      var token = _storageService.token;
+      var headers = {'Authorization': "Bearer $token"};
+
+      request.headers.addAll(headers);
+
+      return request;
+    });
+
+    super.onInit();
+  }
+
+  Future<UserLoginResponseModel> login(UserLoginRequestModel data) async {
+    String nomeFn =
+        'Future<UserLoginResponseModel> login(UserLoginRequestModel data) async';
+    var response = _errorHandler(await post('login', jsonEncode(data)), nomeFn);
+    return UserLoginResponseModel.fromJson(response.body);
+  }
+
+  Future<UserModel> getUser() async {
+    String nomeFn = 'getUser() async';
+    var response = _errorHandler(await get('auth/me'), nomeFn);
+    return UserModel.fromJson(response.body);
+  }
 
   Future<List<StoreModel>> getStores() async {
-    try {
-      debugPrint('FUNCAO getStores');
-      final response = await dio.get<List>('cidades/1/estabelecimentos');
+    String nomeFn = 'Future<List<StoreModel>> getStores()';
+    var response = _errorHandler(
+      await get('cidades/1/estabelecimentos'),
+      nomeFn,
+    );
 
-      debugPrint('getStore id status: ${response.statusCode}');
-      debugPrint('Retorno API: ${response.data}');
-      return response.data!.map((e) => StoreModel.fromJson(e)).toList();
-    } on DioException catch (dioCatch) {
-      switch (dioCatch.response?.statusCode) {
-        case 400:
-          debugPrint('Erro 1: Descrição do erro');
-          throw ('Estabelecimento não encontrado.');
-        case 404:
-          debugPrint('Erro 404: Recurso não encontrado');
-          throw ('Estabelecimento não encontrado.');
-        case null:
-          debugPrint('Erro Dio: Sem conecao');
-          throw ('Sem conexao.');
-        default:
-          debugPrint(
-              'Erro funcao getStores Dio: ${dioCatch.response?.statusCode}');
-          throw 'Ocorreu um erro no getStores: ${dioCatch.message}';
-      }
-    } catch (e) {
-      debugPrint('Erro na funcao getStores: $e');
-      throw 'Ocorreu um erro desconhecido getStores';
+    List<StoreModel> data = [];
+    for (var store in response.body) {
+      data.add(StoreModel.fromJson(store));
     }
+    debugPrint('---$nomeFn List<StoreModel> data: $data');
+    return data;
   }
 
   Future<StoreModel> getStore(int id) async {
-    try {
-      debugPrint('FUNCAO getStore id');
-      final response = await dio.get('estabelecimentos/$id');
-      debugPrint('Retorno da getStore id');
-
-      debugPrint('Retorno API: ${response.data}');
-
-      return StoreModel.fromJson(response.data);
-    } on DioException catch (dioCatch) {
-      switch (dioCatch.response?.statusCode) {
-        case 400:
-          debugPrint('Erro 1: Descrição do erro');
-          throw ('Estabelecimento não encontrado.');
-        case 404:
-          debugPrint('Erro 404: Recurso não encontrado');
-          throw ('Estabelecimento não encontrado.');
-        case null:
-          debugPrint('Erro Dio: Sem conecao');
-          throw ('Sem conexao.');
-        default:
-          debugPrint(
-              'Erro funcao getStores Dio: ${dioCatch.response?.statusCode}');
-          throw 'Ocorreu um erro no getStores: ${dioCatch.message}';
-      }
-    } catch (e) {
-      debugPrint('Erro na funcao getStore id: $e');
-      throw 'Ocorreu um erro getStore id';
-    }
+    String nomeFn = 'Future<StoreModel> getStore(int id) async';
+    var response = _errorHandler(
+      await get('estabelecimentos/$id'),
+      nomeFn,
+    );
+    return StoreModel.fromJson(response.body);
   }
 
-  login(UserLoginRequestModel dados) async {
-    try {
-      var json =
-          await dio.post('login', data: FormData.fromMap(dados.toJson()));
-      debugPrint('getStore id status: ${json.statusCode}');
-      debugPrint('Retorno API: ${json.data}');
-      return json;
-    } on DioException catch (dioCatch) {
-      switch (dioCatch.response?.statusCode) {
-        case 404:
-          debugPrint('Erro 404: Recurso não encontrado');
-          throw ('Login não encontrado.');
-        case null:
-          debugPrint('Erro Dio: Sem conecao');
-          throw ('Sem conexao.');
-        default:
-          debugPrint('Erro funcao login Dio: ${dioCatch.response?.statusCode}');
-          throw 'Ocorreu um erro no login: ${dioCatch.message}';
-      }
-    } catch (e) {
-      debugPrint('Erro na funcao login: $e');
-      throw 'Ocorreu um erro login';
+  Response _errorHandler(Response response, String nomeFn) {
+    debugPrint(nomeFn);
+    debugPrint('--$nomeFn status: ${response.statusCode}');
+    debugPrint('--$nomeFn body: ${response.body}');
+    debugPrint('--$nomeFn bodyString: ${response.bodyString}');
+
+    switch (response.statusCode) {
+      case 200:
+      case 202:
+      case 204:
+        return response;
+      default:
+        throw 'Ocorreu um erro $nomeFn';
     }
   }
 }
