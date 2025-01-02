@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/city.dart';
+import 'package:app_hortifruti_pratico/app/data/models/order_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/store.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user.dart';
+import 'package:app_hortifruti_pratico/app/data/models/user_address_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_login_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_login_response.dart';
 import 'package:app_hortifruti_pratico/app/data/services/storage/service.dart';
@@ -75,6 +79,43 @@ class Api extends GetConnect {
     return StoreModel.fromJson(response.body);
   }
 
+  Future<List<AddressModel>> getUserAddresses() async {
+    String nomeFn = 'getUserAddress() async';
+    var response = _errorHandler(await get('enderecos'), nomeFn);
+
+    List<AddressModel> data = [];
+    for (var address in response.body) {
+      data.add(AddressModel.fromJson(address));
+    }
+    debugPrint('---$nomeFn List<AddressModel> data: $data');
+
+    return data;
+  }
+
+  Future<List<CityModel>> getCities() async {
+    String nomeFn = 'getCities() async';
+    var response = _errorHandler(await get('cidades'), nomeFn);
+
+    List<CityModel> data = [];
+    for (var city in response.body) {
+      data.add(CityModel.fromJson(city));
+    }
+    debugPrint('---$nomeFn List<CityModel> data: $data');
+
+    return data;
+  }
+
+  Future<void> postAddress(UserAddressRequestModel data) async {
+    String nomeFn = 'Future<void> postAddress(UserAddressRequestModel data) async';
+    _errorHandler(await post('enderecos', jsonEncode(data)), nomeFn);
+  }
+
+Future postOrder(OrderRequestModel data) async{
+    String nomeFn = 'postOrder() async';
+    _errorHandler(await post('pedidos', jsonEncode(data)), nomeFn);
+  }
+
+
   Response _errorHandler(Response response, String nomeFn) {
     debugPrint(nomeFn);
     debugPrint('--$nomeFn status: ${response.statusCode}');
@@ -90,4 +131,5 @@ class Api extends GetConnect {
         throw 'Ocorreu um erro $nomeFn';
     }
   }
+  
 }

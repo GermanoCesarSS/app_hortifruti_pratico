@@ -11,59 +11,62 @@ class LoginPage extends GetView<LoginController> {
       appBar: AppBar(title: const Text('LoginPage')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: controller.emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: controller.emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                ),
+                validator: (String? value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Informe o seu email';
+                  } else if (!value!.isEmail) {
+                    return 'Informe um email válido';
+                  }
+                  return null;
+                },
               ),
-              validator: (String? value) {
-                if (value != null && value.isEmpty) {
-                  return 'Informe o seu email';
-                } else if (!value!.isEmail) {
-                  return 'Informe um email válido';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: controller.passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Senha',
+              TextFormField(
+                controller: controller.passwordController,
+                decoration: const InputDecoration(
+                  labelText: 'Senha',
+                ),
+                obscureText: true,
+                validator: (String? value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Informe a senha';
+                  }
+                  return null;
+                },
               ),
-              obscureText: true,
-              validator: (String? value) {
-                if (value != null && value.isEmpty) {
-                  return 'Informe a senha';
-                }
-                return null;
-              },
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: controller.login,
-                      child: const Text('Entrar'),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        onPressed: controller.login,
+                        child: const Text('Entrar'),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text('Criar'),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: const Text('Criar'),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

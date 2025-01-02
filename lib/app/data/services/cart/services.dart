@@ -11,10 +11,7 @@ class CartService extends GetxService {
       products.fold(0, (total, cartProduct) => total + cartProduct.total);
 
   bool isANexStore(StoreModel newStore) {
-    if (store.value == null) {
-      return true;
-    }
-    return store.value!.id != newStore.id;
+    return store.value != null && store.value!.id != newStore.id;
   }
 
   void clearCart() {
@@ -31,5 +28,10 @@ class CartService extends GetxService {
 
   void removeProductFromCart(CartProductModel cartProduct) {
     products.remove(cartProduct);
+  }
+
+  void finalizarCart() {
+    clearCart();
+    observation.value = '';
   }
 }
