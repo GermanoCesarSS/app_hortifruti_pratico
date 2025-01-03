@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'widget/informacao_linha.dart';
 
 class CheckoutPage extends GetView<CheckoutController> {
+  const CheckoutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

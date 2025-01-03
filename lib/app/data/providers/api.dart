@@ -8,6 +8,7 @@ import 'package:app_hortifruti_pratico/app/data/models/user.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_address_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_login_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_login_response.dart';
+import 'package:app_hortifruti_pratico/app/data/models/user_profile_request.dart';
 import 'package:app_hortifruti_pratico/app/data/services/storage/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class Api extends GetConnect {
 
   @override
   void onInit() {
-    debugPrint('--@override void onInit()');
+    debugPrint('--API @override void onInit()');
     httpClient.baseUrl = 'http://10.0.2.2:3333/';
     // httpClient.baseUrl = 'http://localhost:3333/';
 
@@ -52,6 +53,13 @@ class Api extends GetConnect {
   Future<UserModel> getUser() async {
     String nomeFn = 'getUser() async';
     var response = _errorHandler(await get('auth/me'), nomeFn);
+    return UserModel.fromJson(response.body);
+  }
+
+  Future<UserModel> putUser(UserProfileRequestModel data) async{
+    String nomeFn = 'Future<UserModel> putUser(UserProfileRequestModel data) async';
+    var response = _errorHandler(await get('cliente'), nomeFn);
+
     return UserModel.fromJson(response.body);
   }
 
@@ -106,15 +114,15 @@ class Api extends GetConnect {
   }
 
   Future<void> postAddress(UserAddressRequestModel data) async {
-    String nomeFn = 'Future<void> postAddress(UserAddressRequestModel data) async';
+    String nomeFn =
+        'Future<void> postAddress(UserAddressRequestModel data) async';
     _errorHandler(await post('enderecos', jsonEncode(data)), nomeFn);
   }
 
-Future postOrder(OrderRequestModel data) async{
+  Future postOrder(OrderRequestModel data) async {
     String nomeFn = 'postOrder() async';
     _errorHandler(await post('pedidos', jsonEncode(data)), nomeFn);
   }
-
 
   Response _errorHandler(Response response, String nomeFn) {
     debugPrint(nomeFn);
@@ -131,5 +139,4 @@ Future postOrder(OrderRequestModel data) async{
         throw 'Ocorreu um erro $nomeFn';
     }
   }
-  
 }

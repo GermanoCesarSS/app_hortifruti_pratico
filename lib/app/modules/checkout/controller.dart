@@ -110,6 +110,7 @@ class CheckoutController extends GetxController {
           content: Text('Escolha a forma de pagamento do seu pedido')));
       return;
     }
+
     var orderRequest = OrderRequestModel(
       store: _cartService.store.value!,
       paymentMethod: paymentMethod.value!,
@@ -117,6 +118,7 @@ class CheckoutController extends GetxController {
       address: addressSelected.value!,
       observation: _cartService.observation.value,
     );
+
     _repository.postOrder(orderRequest).then((value) {
       Get.dialog(
         AlertDialog(
@@ -125,7 +127,7 @@ class CheckoutController extends GetxController {
             TextButton(
               onPressed: () {
                 _cartService.finalizarCart();
-                Get.offAllNamed(Routes.dashboard);
+                Get.offAllNamed(Routes.dashboard, arguments: 2);
               },
               child: const Text('Ver meus Pedidos'),
             )

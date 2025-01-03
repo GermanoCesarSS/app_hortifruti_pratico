@@ -20,37 +20,37 @@ abstract class AppPages {
   static final pages = [
     GetPage(
       name: Routes.dashboard,
-      page: () => const DashboardPage(),
-      binding: DashboardBinding(),
+      page: () =>  const DashboardPage(),
+      binding:  DashboardBinding(),
     ),
     GetPage(
       name: Routes.store,
-      page: () => StorePage(),
+      page: () => const StorePage(),
       binding: StoreBinding(),
     ),
     GetPage(
       name: Routes.product,
-      page: () => ProductPage(),
+      page: () => const ProductPage(),
       binding: ProductBinding(),
     ),
     GetPage(
       name: Routes.cart,
-      page: () => CartPage(),
+      page: () => const CartPage(),
       binding: CartBinding(),
     ),
     GetPage(
       name: Routes.checkout,
-      page: () => CheckoutPage(),
+      page: () => const CheckoutPage(),
       binding: CheckoutBinding(),
     ),
     GetPage(
       name: Routes.login,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: Routes.userAddress,
-      page: () => UserAddressPage(),
+      page: () => const UserAddressPage(),
       binding: UserAddressBinding(),
     ),
   ];
