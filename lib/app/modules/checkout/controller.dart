@@ -8,7 +8,6 @@ import 'package:app_hortifruti_pratico/app/modules/checkout/repository.dart';
 import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class CheckoutController extends GetxController {
   final CheckoutRepository _repository;
@@ -86,7 +85,7 @@ class CheckoutController extends GetxController {
       children: [
         for (var obj in addresses) ...{
           SimpleDialogOption(
-            child: Text('${obj.street}'),
+            child: Text('Rua: ${obj.street}'),
             onPressed: () {
               addressSelected.value = obj;
               Get.back();

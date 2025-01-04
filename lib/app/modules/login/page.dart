@@ -78,7 +78,7 @@ class TextoFormulario extends StatelessWidget {
   final String? titulo;
   final String? Function(String?)? fn;
 
-  TextoFormulario({
+  const TextoFormulario({super.key, 
     required this.compoControle,
     required this.titulo,
     this.fn,

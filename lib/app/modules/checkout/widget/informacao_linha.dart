@@ -7,7 +7,7 @@ class InformacaoLinha extends StatelessWidget {
   final TextStyle? estiloTitulo;
   final TextStyle? estiloNumero;
 
-  const InformacaoLinha({
+  const InformacaoLinha({super.key, 
     required this.titulo,
     required this.numero,
     this.estiloTitulo,
