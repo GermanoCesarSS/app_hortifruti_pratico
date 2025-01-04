@@ -56,6 +56,11 @@ class HomePage extends GetView<HomeController> {
         width: 56.0,
         child: ClipRRect(
           child: FadeInImage.memoryNetwork(
+            imageErrorBuilder: (context, error, stackTrace) => const SizedBox(
+              width: 56.00,
+              height: 40.00,
+              child: FlutterLogo(),
+            ),
             placeholder: kTransparentImage,
             image: imagem,
           ),

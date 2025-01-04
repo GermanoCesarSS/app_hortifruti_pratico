@@ -37,6 +37,14 @@ class StorePage extends GetView<StoreController> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: FadeInImage.memoryNetwork(
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              const SizedBox(
+                            child: Icon(
+                              Icons.local_convenience_store_rounded,
+                              size: 80.0,
+                              color: Colors.black,
+                            ),
+                          ),
                           placeholder: kTransparentImage,
                           image: state!.imagem,
                         ),
@@ -90,17 +98,21 @@ class StorePage extends GetView<StoreController> {
                           NumberFormat.simpleCurrency().format(product.price) +
                               (product.isKg ? '/KG' : ''),
                         ),
-                        leading: product.imagem.isNotEmpty
-                            ? ClipRRect(
-                                child: FadeInImage.memoryNetwork(
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) =>
-                                          Container(width: 56.00),
-                                  placeholder: kTransparentImage,
-                                  image: product.imagem,
-                                ),
-                              )
-                            : null,
+                        leading: ClipRRect(
+                          child: FadeInImage.memoryNetwork(
+                            imageErrorBuilder: (context, error, stackTrace) =>
+                                const SizedBox(
+                              width: 56.00,
+                              child: Icon(
+                                Icons.apple,
+                                color: Colors.redAccent,
+                                size: 50.00,
+                              ),
+                            ),
+                            placeholder: kTransparentImage,
+                            image: product.imagem,
+                          ),
+                        ),
                         onTap: () => Get.toNamed(Routes.product, arguments: {
                           'product': product,
                           'store': state,

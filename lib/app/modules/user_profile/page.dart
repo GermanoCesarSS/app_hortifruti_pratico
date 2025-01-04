@@ -14,10 +14,17 @@ class UserProfilePage extends GetView<UserProfileController> {
         (state) => SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           child: Column(
+            spacing: 8.00,
             children: [
-              OutlinedButton(
-                onPressed: () {},
-                child: const Text('Meus endereços'),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Get.toNamed(Routes.userAddressList),
+                      child: const Text('Meus endereços'),
+                    ),
+                  ),
+                ],
               ),
               Form(
                 key: controller.formKey,

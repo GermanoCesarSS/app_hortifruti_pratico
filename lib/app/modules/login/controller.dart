@@ -24,7 +24,8 @@ class LoginController extends GetxController {
 
     _authService.login(userLoginRequest).then((value) {
       if (Get.routing.previous != Routes.checkout) {
-        Get.offAllNamed(Routes.dashboard, arguments: 1);
+        Get.offAllNamed(Routes.dashboard,
+            arguments: DashboardMenuIndex.profile);
       }
       Get.back(result: true);
     }, onError: (error) {

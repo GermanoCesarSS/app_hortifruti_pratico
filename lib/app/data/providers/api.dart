@@ -119,10 +119,17 @@ class Api extends GetConnect {
     _errorHandler(await post('enderecos', jsonEncode(data)), nomeFn);
   }
 
-  Future postOrder(OrderRequestModel data) async {
+  Future<void> postOrder(OrderRequestModel data) async {
     String nomeFn = 'postOrder() async';
     _errorHandler(await post('pedidos', jsonEncode(data)), nomeFn);
   }
+
+  Future<void> deleteAddress(int id) async {
+    String nomeFn =
+        'Future<void> deleteAddress(int id) async';
+    _errorHandler(await delete('enderecos/$id'), nomeFn);
+  }
+
 
   Response _errorHandler(Response response, String nomeFn) {
     debugPrint(nomeFn);

@@ -126,7 +126,8 @@ class CheckoutController extends GetxController {
             TextButton(
               onPressed: () {
                 _cartService.finalizarCart();
-                Get.offAllNamed(Routes.dashboard, arguments: 2);
+                Get.offAllNamed(Routes.dashboard,
+                    arguments: DashboardMenuIndex.orders);
               },
               child: const Text('Ver meus Pedidos'),
             )

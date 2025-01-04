@@ -6,4 +6,12 @@ abstract class Routes {
   static const checkout = '/checkout';
   static const login = '/login';
   static const userAddress = '/user-address';
+  static const userAddressList = '/user-address-list';
+}
+
+abstract class DashboardMenuIndex {
+ 
+  static const int home = 0;
+  static const int profile = 1;
+  static const int orders = 2;
 }
