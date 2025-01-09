@@ -1,7 +1,7 @@
 // coverage:ignore-file
 import 'package:app_hortifruti_pratico/app/modules/store/controller.dart';
 import 'package:app_hortifruti_pratico/app/routes/routes.dart';
-import 'package:app_hortifruti_pratico/app/widgtes/store_status.dart';
+import 'package:app_hortifruti_pratico/app/widget/store_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

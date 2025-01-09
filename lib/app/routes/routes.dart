@@ -7,6 +7,8 @@ abstract class Routes {
   static const login = '/login';
   static const userAddress = '/user-address';
   static const userAddressList = '/user-address-list';
+  static const order = '/orders/:hashId';
+  static const selectCity = '/select-city';
 }
 
 abstract class DashboardMenuIndex {

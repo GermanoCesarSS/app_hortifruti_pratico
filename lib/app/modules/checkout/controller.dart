@@ -118,6 +118,7 @@ class CheckoutController extends GetxController {
       observation: _cartService.observation.value,
     );
 
+    //TODO: pegar o 'value' que tem o OrderModel e passar para a tela de pedidos
     _repository.postOrder(orderRequest).then((value) {
       Get.dialog(
         AlertDialog(
@@ -126,8 +127,8 @@ class CheckoutController extends GetxController {
             TextButton(
               onPressed: () {
                 _cartService.finalizarCart();
-                Get.offAllNamed(Routes.dashboard,
-                    arguments: DashboardMenuIndex.orders);
+                Get.offAllNamed(Routes.dashboard, arguments: DashboardMenuIndex.orders);
+                // Get.offAllNamed(Routes.);
               },
               child: const Text('Ver meus Pedidos'),
             )

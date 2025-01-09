@@ -12,7 +12,16 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: const Key('HomePageScaffold'),
-      appBar: AppBar(title: const Text('Hortifruti Prático')),
+      appBar: AppBar(
+        title: const Text('Hortifruti Prático'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed(Routes.selectCity),
+            icon: const Icon(Icons.location_pin),
+            tooltip: 'Alterar cidade',
+          ),
+        ],
+      ),
       body: controller.obx(
         (state) => SafeArea(
           child: ListView(

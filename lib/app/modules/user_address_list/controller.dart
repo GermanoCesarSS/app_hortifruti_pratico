@@ -17,7 +17,11 @@ class UserAddressListController extends GetxController
 
   Future<void> fetchAddresses() {
     return _repository.getUserAddresses().then((data) {
-      change(data, status: RxStatus.success());
+      if(data.isNotEmpty){
+        change(data, status: RxStatus.success());
+      }else{
+      change(null, status: RxStatus.empty());
+      }
     }, onError: (error) {
       change(null, status: RxStatus.error(error.toString()));
     });
@@ -25,6 +29,13 @@ class UserAddressListController extends GetxController
 
   void goToNewAddress() async {
     var result = await Get.toNamed(Routes.userAddress);
+    if (result is bool && result) {
+      fetchAddresses();
+    }
+  }
+
+  void goToEditAddress(AddressModel address) async {
+    var result = await Get.toNamed(Routes.userAddress, arguments: address);
     if (result is bool && result) {
       fetchAddresses();
     }

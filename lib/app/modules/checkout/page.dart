@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'widget/informacao_linha.dart';
+import '../../widget/informacao_linha.dart';
 
 class CheckoutPage extends GetView<CheckoutController> {
   const CheckoutPage({super.key});

@@ -7,7 +7,8 @@ class InformacaoLinha extends StatelessWidget {
   final TextStyle? estiloTitulo;
   final TextStyle? estiloNumero;
 
-  const InformacaoLinha({super.key, 
+  const InformacaoLinha({
+    super.key,
     required this.titulo,
     required this.numero,
     this.estiloTitulo,
@@ -15,7 +16,7 @@ class InformacaoLinha extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext _) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(

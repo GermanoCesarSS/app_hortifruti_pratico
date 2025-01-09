@@ -10,12 +10,12 @@ class UserAddressListPage extends GetView<UserAddressListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Meu Endereços')),
-      body: SingleChildScrollView(
-        child: controller.obx(
-          (state) => Column(
+      body: controller.obx(
+        (listAddressModel) => SingleChildScrollView(
+          child: Column(
             children: [
               WidgetButtonEndereco(vfn: controller.goToNewAddress),
-              for (var address in state!)
+              for (var address in listAddressModel!)
                 ListTile(
                   title: Text('${address.street}, n: ${address.number}'),
                   subtitle:
@@ -34,6 +34,7 @@ class UserAddressListPage extends GetView<UserAddressListController> {
                     onSelected: (value) {
                       switch (value) {
                         case 'edit':
+                          controller.goToEditAddress(address);
                           break;
                         case 'delete':
                           controller.deleteAddress(address);
@@ -41,7 +42,23 @@ class UserAddressListPage extends GetView<UserAddressListController> {
                       }
                     },
                   ),
+                  onTap: () => controller.goToEditAddress(address),
                 ),
+            ],
+          ),
+        ),
+        onEmpty: SingleChildScrollView(
+          child: Column(
+            children: [
+              WidgetButtonEndereco(vfn: controller.goToNewAddress),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Adicione um endereço',
+                  ),
+                ],
+              )
             ],
           ),
         ),
