@@ -1,4 +1,5 @@
 import 'package:app_hortifruti_pratico/app/data/models/order_product.dart';
+import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:app_hortifruti_pratico/app/widget/informacao_linha.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,10 +12,17 @@ class OrderPage extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Detalhes do Pedidos')),
+      appBar: AppBar(
+        title: const Text('Detalhes do Pedidos'),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () => Get.offAllNamed(Routes.dashboard,
+        //       arguments: DashboardMenuIndex.orders),
+        // ),
+      ),
       body: controller.obx(
         (state) => ListView(
-          children: <Widget>[
+          children: [
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.00),

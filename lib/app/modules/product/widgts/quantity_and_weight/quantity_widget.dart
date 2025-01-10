@@ -1,4 +1,3 @@
-
 import 'package:app_hortifruti_pratico/app/modules/product/widgts/quantity_and_weight/quantity_and_weight_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +22,7 @@ class QuantityWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(0),
             minimumSize: const Size(40, 40),
+            backgroundColor: Colors.white,
           ),
           child: const Icon(Icons.remove),
         ),
@@ -43,6 +43,7 @@ class QuantityWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(0),
             minimumSize: const Size(40, 40),
+            backgroundColor: Colors.white,
           ),
           child: const Icon(Icons.add),
         ),

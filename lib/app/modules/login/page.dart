@@ -1,4 +1,5 @@
 import 'package:app_hortifruti_pratico/app/modules/login/controller.dart';
+import 'package:app_hortifruti_pratico/app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,7 +60,7 @@ class LoginPage extends GetView<LoginController> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.register),
                       child: const Text('Criar'),
                     ),
                   ),
@@ -78,7 +79,8 @@ class TextoFormulario extends StatelessWidget {
   final String? titulo;
   final String? Function(String?)? fn;
 
-  const TextoFormulario({super.key, 
+  const TextoFormulario({
+    super.key,
     required this.compoControle,
     required this.titulo,
     this.fn,

@@ -25,6 +25,7 @@ class SelectCityController extends GetxController
 
   void onSelected(CityModel city) async {
     await _storageService.saveCity(city.id);
+    
     Get.offAllNamed(Routes.dashboard);
   }
 }

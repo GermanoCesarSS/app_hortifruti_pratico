@@ -9,5 +9,5 @@ class HomeRepository {
 
   Api get api => _api;
 
-  Future<List<StoreModel>> getStores() => _api.getStores();
+  Future<List<StoreModel>> getStores(int cityId) => _api.getStores(cityId);
 }

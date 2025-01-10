@@ -29,9 +29,9 @@ class MockHomeRepository extends _i1.Mock implements _i2.HomeRepository {
   MockHomeRepository() {
     _i1.throwOnMissingStub(this);
   }
-
+  int id = 1;
   @override
-  _i3.Future<List<_i4.StoreModel>> getStores() => (super.noSuchMethod(
+  _i3.Future<List<_i4.StoreModel>> getStores(id) => (super.noSuchMethod(
         Invocation.method(
           #getStores,
           [],

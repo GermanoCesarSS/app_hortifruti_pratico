@@ -1,4 +1,4 @@
-import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/address.module.dart';
 import 'package:app_hortifruti_pratico/app/data/models/order_product.dart';
 import 'package:app_hortifruti_pratico/app/data/models/order_status.dart';
 import 'package:app_hortifruti_pratico/app/data/models/payment_method.dart';

@@ -4,6 +4,7 @@ abstract class Routes {
   static const product = '/product';
   static const cart = '/cart';
   static const checkout = '/checkout';
+  static const register = '/register';
   static const login = '/login';
   static const userAddress = '/user-address';
   static const userAddressList = '/user-address-list';

@@ -1,4 +1,4 @@
-import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/address.module.dart';
 import 'package:app_hortifruti_pratico/app/data/providers/api.dart';
 
 class UserAddressListRepository {

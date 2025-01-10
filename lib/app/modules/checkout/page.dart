@@ -33,36 +33,44 @@ class CheckoutPage extends GetView<CheckoutController> {
               if (controller.isLogged) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
                       if (controller.addresses.isNotEmpty) ...[
-                        Expanded(child: _buildAddress()),
-                        TextButton(
-                          onPressed: controller.showAddressList,
-                          child: const Text('Alterar'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(child: _buildAddress()),
+                            TextButton(
+                              onPressed: controller.showAddressList,
+                              child: const Text('Alterar'),
+                            ),
+                          ],
                         ),
+                        if (!controller.deliveryToMyaddress) ...[
+                          Center(
+                            child: Text(
+                              'O endereço selecionado não é atendido',
+                              textAlign: TextAlign.center,
+                              style: Get.textTheme.bodyMedium!
+                                  .copyWith(color: Colors.red),
+                            ),
+                          ),
+                        ],
                       ] else ...[
-                        OutlinedButton(
-                          onPressed: controller.goToNewAddress,
-                          child: const Text('Cadastrar um endereço'),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: controller.goToNewAddress,
+                                child: const Text('Cadastrar um endereço'),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ],
                   ),
                 ),
-                if (!controller.deliveryToMyaddress)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        'O endereço selecionado não é atendido',
-                        textAlign: TextAlign.center,
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: Colors.red),
-                      ),
-                    ),
-                  ),
               ] else
                 Center(
                   child: OutlinedButton(
@@ -120,10 +128,12 @@ class CheckoutPage extends GetView<CheckoutController> {
                 estiloTitulo: Get.textTheme.titleLarge,
               ),
               Align(
-                  child: ElevatedButton(
-                      onPressed:
-                          controller.canSendOrder ? controller.sendOrder : null,
-                      child: const Text('Enviar pedido'))),
+                child: ElevatedButton(
+                  onPressed:
+                      controller.canSendOrder ? controller.sendOrder : null,
+                  child: const Text('Enviar pedido'),
+                ),
+              ),
             ],
           ),
         );

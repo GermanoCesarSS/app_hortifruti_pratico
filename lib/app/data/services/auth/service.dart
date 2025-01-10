@@ -15,7 +15,9 @@ class AuthService extends GetxService {
 
   @override
   void onInit() async {
-    await getUser();
+    if (_storageSevice.token != null) {
+      await getUser();
+    }
     super.onInit();
   }
 
@@ -26,8 +28,8 @@ class AuthService extends GetxService {
     await getUser();
   }
 
-  Future getUser() {
-    return _repository.getUser().then(
+  Future<void> getUser() async {
+    await _repository.getUser().then(
           (value) => user.value = value,
         );
   }

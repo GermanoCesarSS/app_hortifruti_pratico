@@ -1,4 +1,4 @@
-import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/address.module.dart';
 import 'package:app_hortifruti_pratico/app/data/models/city.dart';
 import 'package:app_hortifruti_pratico/app/data/models/user_address_request.dart';
 import 'package:app_hortifruti_pratico/app/data/services/auth/service.dart';
@@ -19,7 +19,8 @@ class UserAddressController extends GetxController
   var numeroController = TextEditingController(text: 'test Numero');
   var bairroController = TextEditingController(text: 'test Bairro');
   var pontoRefController = TextEditingController(text: 'test PontoRef');
-  var complementoController = TextEditingController(text: 'test Complemento Controller');
+  var complementoController =
+      TextEditingController(text: 'test Complemento Controller');
   final cityId = RxnInt();
   final _address = Rxn<AddressModel>();
   final editing = RxBool(false);
@@ -76,11 +77,13 @@ class UserAddressController extends GetxController
         );
         Get.back(result: true);
       },
-      onError: (error) => Get.dialog(
-        AlertDialog(
-          title: Text(error.toString()),
-        ),
-      ),
+      onError: (error) {
+        Get.dialog(
+          AlertDialog(
+            title: Text(error.toString()),
+          ),
+        );
+      },
     );
   }
 
@@ -92,11 +95,13 @@ class UserAddressController extends GetxController
         );
         Get.back(result: true);
       },
-      onError: (error) => Get.dialog(
-        AlertDialog(
-          title: Text(error.toString()),
-        ),
-      ),
+      onError: (error) {
+        Get.dialog(
+          AlertDialog(
+            title: Text(error.toString()),
+          ),
+        );
+      },
     );
   }
 

@@ -9,7 +9,7 @@ class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   // Perguntar sobre o tipo da variavel
   TextEditingController emailController =
-      TextEditingController(text: 'admin@email.com');
+      TextEditingController(text: 'cliente@email.com');
   TextEditingController passwordController =
       TextEditingController(text: '123456');
 
@@ -23,11 +23,12 @@ class LoginController extends GetxController {
     );
 
     _authService.login(userLoginRequest).then((value) {
-      if (Get.routing.previous != Routes.checkout) {
-        Get.offAllNamed(Routes.dashboard,
-            arguments: DashboardMenuIndex.profile);
-      }
-      Get.back(result: true);
+      // if (Get.routing.previous != Routes.checkout) {
+      //   Get.offAllNamed(Routes.dashboard,
+      //       arguments: DashboardMenuIndex.profile);
+      // }
+
+      Get.back();
     }, onError: (error) {
       Get.dialog(AlertDialog(
         title: Text(error.toString()),

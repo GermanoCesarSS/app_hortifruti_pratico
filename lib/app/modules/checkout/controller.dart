@@ -1,4 +1,4 @@
-import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/address.module.dart';
 import 'package:app_hortifruti_pratico/app/data/models/order_request.dart';
 import 'package:app_hortifruti_pratico/app/data/models/payment_method.dart';
 import 'package:app_hortifruti_pratico/app/data/models/shipping_by_city.dart';
@@ -43,9 +43,13 @@ class CheckoutController extends GetxController {
       _cartService.store.value!.paymentMethod;
   bool get deliveryToMyaddress => getShippingByCity != null;
   bool get canSendOrder => isLogged && deliveryToMyaddress;
+
   @override
   void onInit() {
     fetchAddresses();
+
+    ever(_authService.user, (_) => fetchAddresses());
+
     super.onInit();
   }
 
@@ -60,14 +64,12 @@ class CheckoutController extends GetxController {
     }
   }
 
-  void goToNewAddress() async {
-    var result = await Get.toNamed(Routes.userAddress);
-    if (result is bool && result) {
-      fetchAddresses();
-    }
+  void goToNewAddress() {
+    Get.toNamed(Routes.userAddress);
   }
 
   void fetchAddresses() {
+    loading.value = true;
     _repository.getUserAddresses().then((value) {
       addresses.assignAll(value);
       if (addresses.isNotEmpty) {
@@ -118,8 +120,7 @@ class CheckoutController extends GetxController {
       observation: _cartService.observation.value,
     );
 
-    //TODO: pegar o 'value' que tem o OrderModel e passar para a tela de pedidos
-    _repository.postOrder(orderRequest).then((value) {
+    _repository.postOrder(orderRequest).then((hashId) {
       Get.dialog(
         AlertDialog(
           title: const Text('Pedido enviado!'),
@@ -128,7 +129,7 @@ class CheckoutController extends GetxController {
               onPressed: () {
                 _cartService.finalizarCart();
                 Get.offAllNamed(Routes.dashboard, arguments: DashboardMenuIndex.orders);
-                // Get.offAllNamed(Routes.);
+                // Get.offAllNamed(Routes.order.replaceFirst(':hashId', hashId));
               },
               child: const Text('Ver meus Pedidos'),
             )

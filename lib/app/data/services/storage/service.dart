@@ -11,13 +11,17 @@ class StorageService extends GetxService {
 
   @override
   void onInit() {
+    //TOKEN
     _token.value = _box.read(StorageKey.token.toString());
+
     _box.listenKey(
       StorageKey.token.toString(),
       (value) => _token.value = value,
     );
 
+    //CITY
     _cityId.value = _box.read(StorageKey.cityId.toString());
+
     _box.listenKey(
       StorageKey.cityId.toString(),
       (value) => _cityId.value = value,
@@ -33,9 +37,9 @@ class StorageService extends GetxService {
   Future<void> removeToken() async {
     await _box.remove(StorageKey.token.toString());
   }
-  
+
   Future<void> saveCity(int cityId) async {
-   await _box.write(StorageKey.cityId.toString(), cityId);
+    await _box.write(StorageKey.cityId.toString(), cityId);
   }
 }
 

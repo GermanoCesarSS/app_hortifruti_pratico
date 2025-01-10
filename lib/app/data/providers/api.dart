@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_hortifruti_pratico/app/data/models/address.dart';
+import 'package:app_hortifruti_pratico/app/data/models/address.module.dart';
 import 'package:app_hortifruti_pratico/app/data/models/city.dart';
 import 'package:app_hortifruti_pratico/app/data/models/order.dart';
 import 'package:app_hortifruti_pratico/app/data/models/order_request.dart';
@@ -63,6 +63,14 @@ class Api extends GetConnect {
     return UserLoginResponseModel.fromJson(response.body);
   }
 
+  Future<UserModel> register(UserProfileRequestModel data) async {
+    String nomeFn =
+        'Future<UserModel> register(UserProfileRequestModel data) async';
+    var response =
+        _errorHandler(await post('cliente/cadastro', jsonEncode(data)), nomeFn);
+    return UserModel.fromJson(response.body);
+  }
+
   Future<UserModel> getUser() async {
     String nomeFn = 'getUser() async';
     var response = _errorHandler(await get('auth/me'), nomeFn);
@@ -77,10 +85,10 @@ class Api extends GetConnect {
     return UserModel.fromJson(response.body);
   }
 
-  Future<List<StoreModel>> getStores() async {
+  Future<List<StoreModel>> getStores(int cityId) async {
     String nomeFn = 'Future<List<StoreModel>> getStores()';
     var response = _errorHandler(
-      await get('cidades/1/estabelecimentos'),
+      await get('cidades/$cityId/estabelecimentos'),
       nomeFn,
     );
 
@@ -145,29 +153,19 @@ class Api extends GetConnect {
     _errorHandler(await delete('enderecos/$id'), nomeFn);
   }
 
-  Response _errorHandler(Response response, String nomeFn) {
-    debugPrint(nomeFn);
-    debugPrint('--$nomeFn status: ${response.statusCode}');
-    debugPrint('--$nomeFn body: ${response.body}');
-    debugPrint('--$nomeFn bodyString: ${response.bodyString}');
-
-    switch (response.statusCode) {
-      case 200:
-      case 202:
-      case 204:
-        return response;
-      default:
-        throw 'Ocorreu um erro $nomeFn';
-    }
-  }
-
   // PEDIDOS
 
-  Future<OrderModel> postOrder(OrderRequestModel data) async {
+  Future<String> postOrder(OrderRequestModel data) async {
     String nomeFn = 'postOrder() async';
-   var response = _errorHandler(await post('pedidos', jsonEncode(data)), nomeFn);
-   //TODO: ver se o 'body' tem os pedidos
-   return OrderModel.fromJson(response.body);
+    var response =
+        _errorHandler(await post('pedidos', jsonEncode(data)), nomeFn);
+
+    if (response.body == null && response.body['hash_id'] == null) {
+      //TODO: testar se avisa o erro
+      throw "ID não encontrado na resposta.";
+    }
+
+    return response.body['hash_id'];
   }
 
   Future<List<OrderModel>> getOrders() async {
@@ -185,4 +183,23 @@ class Api extends GetConnect {
 
     return OrderModel.fromJson(response.body);
   }
+
+  //UTILS
+  Response _errorHandler(Response response, String nomeFn) {
+    debugPrint(nomeFn);
+    debugPrint('--status: ${response.statusCode}');
+    debugPrint('--body: ${response.body}');
+
+    switch (response.statusCode) {
+      case 200:
+      case 202:
+      case 204:
+        return response;
+      case 422:
+        throw response.body['errors'].first['message'];
+      default:
+        throw 'Ocorreu um erro $nomeFn';
+    }
+  }
+  
 }
